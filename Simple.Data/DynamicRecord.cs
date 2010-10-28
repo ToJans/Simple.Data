@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using Simple.Data.Ado;
 using Simple.Data.Schema;
@@ -10,7 +11,7 @@ using System.Data;
 
 namespace Simple.Data
 {
-    public partial class DynamicRecord : DynamicObject
+    public partial class DynamicRecord : DynamicObject, ISerializable
     {
         private readonly Database _database;
         private readonly string _tableName;
@@ -148,6 +149,11 @@ namespace Simple.Data
         private bool CanSetProperty(PropertyInfo propertyInfo)
         {
             return _data.ContainsKey(propertyInfo.Name.Homogenize()) && !(propertyInfo.PropertyType.IsValueType && _data[propertyInfo.Name.Homogenize()] == null);
+        }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            throw new NotImplementedException();
         }
     }
 }

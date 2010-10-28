@@ -38,5 +38,11 @@ namespace Simple.Data.SqlCeTest.SchemaTests
             Assert.AreEqual(1, table.Columns.Count(c => c.ActualName == "Id"));
         }
 
+        [TestMethod]
+        public void TestRelations()
+        {
+            var schema = GetSchema();
+            Assert.AreEqual(1, schema.FindTable("Orders").ForeignKeys.Count);
+        }
     }
 }

@@ -39,7 +39,6 @@ namespace Simple.Data.SqlCe35
 
         public ISchemaProvider GetSchemaProvider()
         {
-            throw new NotImplementedException();
         }
 
         public DataTable GetSchema(string collectionName)
