@@ -50,6 +50,8 @@ namespace Simple.Data
         internal DynamicRecord(SimpleQuery query)
         {
             _query = query;
+            _dataStrategy = _query.DataStrategy;
+            _tableName = _query.TableName;
             _data = new HomogenizedKeyDictionary();
         }
 
@@ -90,12 +92,14 @@ namespace Simple.Data
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
+            if (AmNull()) throw new NullReferenceException();
             _data[binder.Name.Homogenize()] = value;
             return true;
         }
 
         public override bool TryConvert(ConvertBinder binder, out object result)
         {
+            if (AmNull()) throw new NullReferenceException();
             result = _concreteObject.Get(binder.Type, _data);
             return result != null;
         }

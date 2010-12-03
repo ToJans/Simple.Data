@@ -22,6 +22,20 @@ namespace Simple.Data
             _tableName = tableName;
         }
 
+        public DataStrategy DataStrategy
+        {
+            get {
+                return _dataStrategy;
+            }
+        }
+
+        public string TableName
+        {
+            get {
+                return _tableName;
+            }
+        }
+
         public IEnumerable<T> Cast<T>()
         {
             return GetEnumerable().Select(item => (T)item);
