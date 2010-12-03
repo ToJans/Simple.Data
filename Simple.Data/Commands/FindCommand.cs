@@ -23,7 +23,7 @@ namespace Simple.Data.Commands
         /// <summary>
         /// Executes the command.
         /// </summary>
-        /// <param name="database">The database.</param>
+        /// <param name="dataStrategy">The database.</param>
         /// <param name="table"></param>
         /// <param name="binder">The binder from the <see cref="DynamicTable"/> method invocation.</param>
         /// <param name="args">The arguments from the <see cref="DynamicTable"/> method invocation.</param>
@@ -32,8 +32,8 @@ namespace Simple.Data.Commands
         {
             if (args.Length == 1 && args[0] is SimpleExpression)
             {
-                var data = dataStrategy.Find(table.GetQualifiedName(), (SimpleExpression)args[0]).FirstOrDefault();
-                return data != null ? new DynamicRecord(data, table.GetQualifiedName(), dataStrategy) : null;
+                return
+                    new DynamicRecord(new SimpleQuery(dataStrategy, table.GetQualifiedName(), (SimpleExpression) args[0]));
             }
 
             return null;

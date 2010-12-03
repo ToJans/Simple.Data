@@ -37,7 +37,7 @@ namespace Simple.Data.IntegrationTest
                 "select [dbo].[Customer].* from [dbo].[Customer] join [dbo].[Orders] on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) where [dbo].[Orders].[OrderDate] = @p1".ToLowerInvariant();
 
             // Act
-            database.Customer.Find(database.Customers.Orders.OrderDate == orderDate);
+            database.Customer.Find(database.Customers.Orders.OrderDate == orderDate).Fetch();
 
 
             // Assert
@@ -70,7 +70,7 @@ namespace Simple.Data.IntegrationTest
                                  + " where [dbo].[ORDER].[ORDER_DATE] = @p1";
 
             // Act
-            database.Customer.Find(database.Customers.Orders.OrderDate == orderDate);
+            database.Customer.Find(database.Customers.Orders.OrderDate == orderDate).Fetch();
 
 
             // Assert

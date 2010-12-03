@@ -30,7 +30,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id == 1);
+            database.foo.Users.Find(database.foo.Users.Id == 1).Fetch();
             Assert.AreEqual("select [foo].[users].* from [foo].[users] where [foo].[users].[id] = @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -40,7 +40,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id != 1);
+            database.foo.Users.Find(database.foo.Users.Id != 1).Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[Id] != @p1".ToLowerInvariant().ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -50,7 +50,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id > 1);
+            database.foo.Users.Find(database.foo.Users.Id > 1).Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[Id] > @p1".ToLowerInvariant().ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -60,7 +60,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id >= 1);
+            database.foo.Users.Find(database.foo.Users.Id >= 1).Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[Id] >= @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -70,7 +70,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id < 1);
+            database.foo.Users.Find(database.foo.Users.Id < 1).Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[Id] < @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -80,7 +80,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.Find(database.foo.Users.Id <= 1);
+            database.foo.Users.Find(database.foo.Users.Id <= 1).Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[Id] <= @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
         }
@@ -90,7 +90,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.FindByName("Foo");
+            database.foo.Users.FindByName("Foo").Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where [foo].[Users].[name] like @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual("Foo", mockDatabase.Parameters[0]);
         }
@@ -100,7 +100,7 @@ namespace Simple.Data.IntegrationTest
         {
             var mockDatabase = new MockDatabase();
             dynamic database = CreateDatabase(mockDatabase);
-            database.foo.Users.FindByNameAndPassword("Foo", "secret");
+            database.foo.Users.FindByNameAndPassword("Foo", "secret").Fetch();
             Assert.AreEqual("select [foo].[Users].* from [foo].[Users] where ([foo].[Users].[name] like @p1 and [foo].[Users].[password] like @p2)".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual("Foo", mockDatabase.Parameters[0]);
             Assert.AreEqual("secret", mockDatabase.Parameters[1]);

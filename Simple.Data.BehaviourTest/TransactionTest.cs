@@ -33,7 +33,7 @@ namespace Simple.Data.IntegrationTest
             dynamic database = CreateDatabase(mockDatabase);
             using (var transaction = database.BeginTransaction())
             {
-                transaction.Users.Find(database.Users.Id == 1);
+                transaction.Users.Find(database.Users.Id == 1).Fetch();
             }
             Assert.AreEqual("select [dbo].[users].* from [dbo].[users] where [dbo].[users].[id] = @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual(1, mockDatabase.Parameters[0]);
@@ -46,7 +46,7 @@ namespace Simple.Data.IntegrationTest
             dynamic database = CreateDatabase(mockDatabase);
             using (var transaction = database.BeginTransaction())
             {
-                transaction.Users.FindByName("Foo");
+                transaction.Users.FindByName("Foo").Fetch();
             }
             Assert.AreEqual("select [dbo].[Users].* from [dbo].[Users] where [dbo].[Users].[name] like @p1".ToLowerInvariant(), mockDatabase.Sql.ToLowerInvariant());
             Assert.AreEqual("Foo", mockDatabase.Parameters[0]);

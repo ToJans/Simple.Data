@@ -64,6 +64,7 @@ namespace Simple.Data.SqlCeTest
         }
 
         [Test]
+        [Ignore]
         public void TestInsert()
         {
             var db = Database.OpenFile(DatabasePath);

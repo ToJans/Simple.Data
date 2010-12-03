@@ -52,6 +52,14 @@ namespace Simple.Data
             _internalDictionary.Add(Homogenize(item));
         }
 
+        public void AddRange(IEnumerable<KeyValuePair<string,object>> source)
+        {
+            foreach (var keyValuePair in source)
+            {
+                _internalDictionary.Add(keyValuePair.Key.Homogenize(), DbNullToClrNull(keyValuePair.Value));
+            }
+        }
+
         /// <summary>
         /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
         /// </summary>

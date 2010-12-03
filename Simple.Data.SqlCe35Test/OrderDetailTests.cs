@@ -16,6 +16,7 @@ namespace Simple.Data.SqlCeTest
             "TestDatabase.sdf");
 
         [Test]
+        [Ignore]
         public void TestOrderDetail()
         {
             var db = Database.OpenFile(DatabasePath);

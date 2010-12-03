@@ -37,7 +37,8 @@ namespace Simple.Data.IntegrationTest
                 "select [dbo].[Customer].* from [dbo].[Customer] join [dbo].[Orders] on ([dbo].[Customer].[CustomerId] = [dbo].[Orders].[CustomerId]) where [dbo].[Orders].[OrderDate] = @p1";
 
             // Act
-            database.Customer.Find(database.Customer.Orders.OrderDate == orderDate);
+            database.Customer.Find(database.Customer.Orders.OrderDate == orderDate).Fetch();
+
             var actualSql = Regex.Replace(mockDatabase.Sql, @"\s+", " ").ToLowerInvariant();
 
             // Assert

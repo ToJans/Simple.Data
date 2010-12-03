@@ -23,15 +23,14 @@ namespace Simple.Data.Commands
         /// <summary>
         /// Executes the command.
         /// </summary>
-        /// <param name="database">The database.</param>
+        /// <param name="dataStrategy">The database.</param>
         /// <param name="table"></param>
         /// <param name="binder">The binder from the <see cref="DynamicTable"/> method invocation.</param>
         /// <param name="args">The arguments from the <see cref="DynamicTable"/> method invocation.</param>
         /// <returns></returns>
         public object Execute(DataStrategy dataStrategy, DynamicTable table, InvokeMemberBinder binder, object[] args)
         {
-            return new DynamicEnumerable(dataStrategy.Find(table.GetQualifiedName(), null)
-                .Select(dict => new DynamicRecord(dict, table.GetQualifiedName(), dataStrategy)));
+            return new SimpleQuery(dataStrategy, table.GetName(), null);
         }
     }
 }

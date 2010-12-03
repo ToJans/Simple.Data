@@ -77,6 +77,23 @@ namespace Simple.Data
             return new DynamicEnumerator(_enumerable);
         }
 
+        public override bool TryConvert(ConvertBinder binder, out object result)
+        {
+            if (ConvertIsToEnumerable(binder))
+            {
+                result = Cast<dynamic>();
+                return true;
+            }
+            result = null;
+            return false;
+        }
+
+        private static bool ConvertIsToEnumerable(ConvertBinder binder)
+        {
+            return binder.Type.IsGenericType
+                   && binder.Type.GetGenericTypeDefinition() == typeof (IEnumerable<>);
+        }
+
         class DynamicEnumerator : IEnumerator, IDisposable
         {
             private readonly IEnumerator<dynamic> _enumerator;

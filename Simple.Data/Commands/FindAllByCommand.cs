@@ -14,10 +14,7 @@ namespace Simple.Data.Commands
         public object Execute(DataStrategy dataStrategy, DynamicTable table, InvokeMemberBinder binder, object[] args)
         {
             var criteria = ExpressionHelper.CriteriaDictionaryToExpression(table.GetQualifiedName(), MethodNameParser.ParseFromBinder(binder, args));
-            var data = dataStrategy.Find(table.GetQualifiedName(), criteria);
-            return new DynamicEnumerable(data != null
-                         ? data.Select(dict => new DynamicRecord(dict, table.GetQualifiedName(), dataStrategy))
-                         : Enumerable.Empty<DynamicRecord>());
+            return new SimpleQuery(dataStrategy, table.GetQualifiedName(), criteria);
         }
     }
 }

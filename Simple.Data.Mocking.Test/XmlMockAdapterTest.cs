@@ -47,6 +47,16 @@ namespace Simple.Data.Mocking.Test
         ///A test for Find
         ///</summary>
         [Test]
+        public void FindAllByPassword_ShouldFindThreeRecords()
+        {
+            IEnumerable<dynamic> users = Database.Default.Users.FindAllByPassword("quux");
+            Assert.AreEqual(3, users.Count());
+        }
+
+        /// <summary>
+        ///A test for Find
+        ///</summary>
+        [Test]
         public void FindByKey_ShouldFindRecord()
         {
             var key = Guid.Parse("4a1c8a8a-238d-443e-8ab2-bdf046a91fd7");
@@ -77,7 +87,7 @@ namespace Simple.Data.Mocking.Test
         [Test]
         public void All_ShouldReturnTwoUsers()
         {
-            IEnumerable<object> users = Database.Default.Users.All().Cast<object>();
+            IEnumerable<dynamic> users = Database.Default.Users.All().Cast<object>();
             Assert.AreEqual(_mockAdapter.Data.Element("Users").Elements().Count(), users.Count());
         }
 

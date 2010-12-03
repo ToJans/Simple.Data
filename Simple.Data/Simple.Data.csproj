@@ -111,6 +111,7 @@
     <Compile Include="SimpleExpression.cs" />
     <Compile Include="SimpleExpressionType.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="SimpleQuery.cs" />
     <Compile Include="SimpleTransaction.cs" />
     <Compile Include="UnresolvableObjectException.cs" />
     <Compile Include="Commands\UpdateByCommand.cs" />
