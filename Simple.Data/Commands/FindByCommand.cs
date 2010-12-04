@@ -16,7 +16,7 @@ namespace Simple.Data.Commands
         {
             var criteriaExpression = ExpressionHelper.CriteriaDictionaryToExpression(table.GetQualifiedName(), MethodNameParser.ParseFromBinder(binder, args));
             return
-                new DynamicRecord(new SimpleQuery(dataStrategy, table.GetQualifiedName(), criteriaExpression));
+                new DynamicRecord(new SimpleOneRowQuery(dataStrategy, table.GetQualifiedName(), criteriaExpression));
         }
     }
 }

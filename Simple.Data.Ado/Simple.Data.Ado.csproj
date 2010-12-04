@@ -45,8 +45,9 @@
   <ItemGroup>
     <Compile Include="AdoAdapter.cs" />
     <Compile Include="AdoAdapterException.cs" />
-    <Compile Include="AdoAdapterFinder.cs" />
+    <Compile Include="AdoAdapterManyFinder.cs" />
     <Compile Include="AdoAdapterInserter.cs" />
+    <Compile Include="AdoAdapterOneFinder.cs" />
     <Compile Include="AdoAdapterRelatedFinder.cs" />
     <Compile Include="AdoAdapterTransaction.cs" />
     <Compile Include="CommandBuilder.cs" />

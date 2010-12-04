@@ -33,7 +33,7 @@ namespace Simple.Data.Commands
             if (args.Length == 1 && args[0] is SimpleExpression)
             {
                 return
-                    new DynamicRecord(new SimpleQuery(dataStrategy, table.GetQualifiedName(), (SimpleExpression) args[0]));
+                    new DynamicRecord(new SimpleOneRowQuery(dataStrategy, table.GetQualifiedName(), (SimpleExpression) args[0]));
             }
 
             return null;

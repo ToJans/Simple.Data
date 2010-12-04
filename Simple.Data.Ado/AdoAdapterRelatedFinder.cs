@@ -63,7 +63,7 @@ namespace Simple.Data.Ado
         private IEnumerable<IDictionary<string, object>> GetMaster(IDictionary<string, object> row, TableJoin masterJoin)
         {
             var criteria = new Dictionary<string, object> { { masterJoin.MasterColumn.ActualName, row[masterJoin.DetailColumn.HomogenizedName] } };
-            yield return _adapter.Find(masterJoin.Master.ActualName,
+            yield return _adapter.FindMany(masterJoin.Master.ActualName,
                                        ExpressionHelper.CriteriaDictionaryToExpression(masterJoin.Master.ActualName,
                                                                                        criteria)).FirstOrDefault();
         }
@@ -71,7 +71,7 @@ namespace Simple.Data.Ado
         private IEnumerable<IDictionary<string, object>> GetDetail(IDictionary<string, object> row, TableJoin join)
         {
             var criteria = new Dictionary<string, object> { { join.DetailColumn.ActualName, row[join.MasterColumn.HomogenizedName] } };
-            return _adapter.Find(join.Detail.ActualName,
+            return _adapter.FindMany(join.Detail.ActualName,
                                           ExpressionHelper.CriteriaDictionaryToExpression(join.Detail.ActualName,
                                                                                           criteria));
         }

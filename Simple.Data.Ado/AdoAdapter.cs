@@ -50,9 +50,14 @@ namespace Simple.Data.Ado
             return new AdoAdapterRelatedFinder(this);
         }
 
-        public override IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria)
+        public override IDictionary<string, object> FindOne(string tableName, SimpleExpression criteria)
         {
-            return new AdoAdapterFinder(this).Find(tableName, criteria);
+            return new AdoAdapterOneFinder(this).FindOne(tableName, criteria);
+        }
+
+        public override IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria)
+        {
+            return new AdoAdapterManyFinder(this).FindMany(tableName, criteria);
         }
 
         public override IDictionary<string, object> Insert(string tableName, IDictionary<string, object> data)
@@ -194,9 +199,14 @@ namespace Simple.Data.Ado
             return new AdoAdapterTransaction(transaction, name);
         }
 
-        public IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria, IAdapterTransaction transaction)
+        public IDictionary<string, object> FindOne(string tableName, SimpleExpression criteria, IAdapterTransaction transaction)
         {
-            return new AdoAdapterFinder(this, ((AdoAdapterTransaction)transaction).Transaction).Find(tableName, criteria);
+            return new AdoAdapterOneFinder(this, ((AdoAdapterTransaction)transaction).Transaction).FindOne(tableName, criteria);
+        }
+
+        public IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria, IAdapterTransaction transaction)
+        {
+            return new AdoAdapterManyFinder(this, ((AdoAdapterTransaction)transaction).Transaction).FindMany(tableName, criteria);
         }
 
         public IDictionary<string, object> Insert(string tableName, IDictionary<string, object> data, IAdapterTransaction transaction)

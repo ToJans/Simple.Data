@@ -30,7 +30,7 @@ namespace Simple.Data.Commands
         /// <returns></returns>
         public object Execute(DataStrategy dataStrategy, DynamicTable table, InvokeMemberBinder binder, object[] args)
         {
-            return new SimpleQuery(dataStrategy, table.GetName(), null);
+            return new SimpleManyRowQuery(dataStrategy, table.GetName(), null);
         }
     }
 }

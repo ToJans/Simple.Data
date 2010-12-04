@@ -92,9 +92,14 @@ namespace Simple.Data
             _adapterTransaction.Rollback();
         }
 
-        public override IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria)
+        public override IDictionary<string, object> FindOne(string tableName, SimpleExpression criteria)
         {
-            return _adapter.Find(tableName, criteria, AdapterTransaction);
+            return _adapter.FindOne(tableName, criteria, AdapterTransaction);
+        }
+
+        public override IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria)
+        {
+            return _adapter.FindMany(tableName, criteria, AdapterTransaction);
         }
 
         public override IDictionary<string, object> Insert(string tableName, IDictionary<string, object> data)

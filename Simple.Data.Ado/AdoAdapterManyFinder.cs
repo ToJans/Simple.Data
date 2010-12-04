@@ -7,17 +7,17 @@ using System.Text;
 
 namespace Simple.Data.Ado
 {
-    class AdoAdapterFinder
+    class AdoAdapterManyFinder
     {
         private readonly AdoAdapter _adapter;
         private readonly DbTransaction _transaction;
         private readonly DbConnection _connection;
 
-        public AdoAdapterFinder(AdoAdapter adapter) : this(adapter, null)
+        public AdoAdapterManyFinder(AdoAdapter adapter) : this(adapter, null)
         {
         }
 
-        public AdoAdapterFinder(AdoAdapter adapter, DbTransaction transaction)
+        public AdoAdapterManyFinder(AdoAdapter adapter, DbTransaction transaction)
         {
             if (adapter == null) throw new ArgumentNullException("adapter");
             _adapter = adapter;
@@ -29,7 +29,7 @@ namespace Simple.Data.Ado
             }
         }
 
-        public IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria)
+        public IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria)
         {
             if (criteria == null) return FindAll(TableName.Parse(tableName));
 

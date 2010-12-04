@@ -24,7 +24,15 @@ namespace Simple.Data.Mocking
             get { return _data.Value; }
         }
 
-        public override IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria)
+        public override IDictionary<string, object> FindOne(string tableName, SimpleExpression criteria)
+        {
+            var element = GetTableElement(tableName).Elements()
+                .FirstOrDefault(XmlPredicateBuilder.GetPredicate(criteria));
+
+            return element == null ? null : element.AttributesToDictionary();
+        }
+
+        public override IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria)
         {
             if (criteria == null) return FindAll(tableName);
             return GetTableElement(tableName).Elements()

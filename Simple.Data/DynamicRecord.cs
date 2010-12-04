@@ -10,7 +10,7 @@ namespace Simple.Data
 {
     public partial class DynamicRecord : DynamicObject
     {
-        private readonly SimpleQuery _query;
+        private readonly SimpleOneRowQuery _query;
         private readonly ConcreteObject _concreteObject = new ConcreteObject();
         private readonly HomogenizedKeyDictionary _data;
         private readonly DataStrategy _dataStrategy;
@@ -47,7 +47,7 @@ namespace Simple.Data
             _null = false;
         }
 
-        internal DynamicRecord(SimpleQuery query)
+        internal DynamicRecord(SimpleOneRowQuery query)
         {
             _query = query;
             _dataStrategy = _query.DataStrategy;
@@ -175,11 +175,11 @@ namespace Simple.Data
         private bool AmNull()
         {
             if (_null.HasValue) return _null.Value;
-            var data = _query.ToArray<DynamicRecord>();
-            _null = (data.Length == 0);
+            var data = _query.Run();
+            _null = (data == null);
             if (!_null.Value)
             {
-                _data.AddRange(data[0]);
+                _data.AddRange(data);
             }
             return _null.Value;
         }

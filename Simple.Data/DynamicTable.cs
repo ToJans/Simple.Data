@@ -105,7 +105,7 @@ namespace Simple.Data
 
         private IEnumerable<dynamic> GetAll()
         {
-            return _dataStrategy.Find(_tableName, null).Select(dict => new DynamicRecord(dict, _tableName, _dataStrategy));
+            return _dataStrategy.FindMany(_tableName, null).Select(dict => new DynamicRecord(dict, _tableName, _dataStrategy));
         }
     }
 }

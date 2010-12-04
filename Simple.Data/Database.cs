@@ -54,15 +54,20 @@ namespace Simple.Data
             get { return LazyDefault.Value; }
         }
 
+        public override IDictionary<string, object> FindOne(string tableName, SimpleExpression criteria)
+        {
+            return _adapter.FindOne(tableName, criteria);
+        }
+
         /// <summary>
         ///  Finds data from the specified "table".
         ///  </summary>
         /// <param name="tableName">Name of the table.</param>
         /// <param name="criteria">The criteria. This may be <c>null</c>, in which case all records should be returned.</param>
         /// <returns>The list of records matching the criteria. If no records are found, return an empty list.</returns>
-        public override IEnumerable<IDictionary<string, object>> Find(string tableName, SimpleExpression criteria)
+        public override IEnumerable<IDictionary<string, object>> FindMany(string tableName, SimpleExpression criteria)
         {
-            return _adapter.Find(tableName, criteria);
+            return _adapter.FindMany(tableName, criteria);
         }
 
         /// <summary>

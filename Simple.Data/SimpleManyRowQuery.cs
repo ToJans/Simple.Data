@@ -8,32 +8,12 @@ using Microsoft.CSharp.RuntimeBinder;
 
 namespace Simple.Data
 {
-    class SimpleQuery : DynamicObject, IEnumerable
+    class SimpleManyRowQuery : SimpleQueryBase, IEnumerable
     {
-        private readonly DataStrategy _dataStrategy;
-        private readonly string _tableName;
-        private readonly SimpleExpression _criteria;
         private IEnumerable<DynamicRecord> _enumerable;
 
-        public SimpleQuery(DataStrategy dataStrategy, string tableName, SimpleExpression criteria)
+        public SimpleManyRowQuery(DataStrategy dataStrategy, string tableName, SimpleExpression criteria) : base(dataStrategy, tableName, criteria)
         {
-            _dataStrategy = dataStrategy;
-            _criteria = criteria;
-            _tableName = tableName;
-        }
-
-        public DataStrategy DataStrategy
-        {
-            get {
-                return _dataStrategy;
-            }
-        }
-
-        public string TableName
-        {
-            get {
-                return _tableName;
-            }
         }
 
         public IEnumerable<T> Cast<T>()
@@ -124,8 +104,8 @@ namespace Simple.Data
 
         private IEnumerable<DynamicRecord> Run()
         {
-            return _enumerable = _dataStrategy.Find(_tableName, _criteria)
-                .Select(d => new DynamicRecord(d, _tableName, _dataStrategy));
+            return _enumerable = DataStrategy.FindMany(TableName, Criteria)
+                .Select(d => new DynamicRecord(d, TableName, DataStrategy));
         }
     }
 }
