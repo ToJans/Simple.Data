@@ -67,27 +67,45 @@ namespace Simple.Data
                 }
             }
             if (AmNull()) throw new NullReferenceException();
+
+            result = null;
+            return TryGetProperty(binder, ref result)
+                || TryGetMasterRecord(binder, ref result)
+                || TryGetDetailRecords(binder, ref result)
+                || base.TryGetMember(binder, out result);
+        }
+
+        private bool TryGetProperty(GetMemberBinder binder, ref object result)
+        {
             if (_data.ContainsKey(binder.Name))
             {
                 result = _data[binder.Name];
                 return true;
             }
-            var relatedAdapter = _dataStrategy.Adapter as IAdapterWithRelation;
-            if (relatedAdapter != null && relatedAdapter.IsValidRelation(_tableName, binder.Name))
-            {
-                var relatedRows = relatedAdapter.FindRelated(_tableName, _data, binder.Name);
+            return false;
+        }
 
-                if (relatedRows.Count() == 1 && !binder.Name.IsPlural())
-                {
-                    result = new DynamicRecord(relatedRows.Single(), binder.Name, _dataStrategy);
-                }
-                else
-                {
-                    result = new DynamicEnumerable(relatedRows.Select(dict => new DynamicRecord(dict, binder.Name, _dataStrategy)));
-                }
+        private bool TryGetDetailRecords(GetMemberBinder binder, ref object result)
+        {
+            if (_dataStrategy.GetRelationType(_tableName, binder.Name) == RelationType.OneToMany)
+            {
+                var relatedRows = _dataStrategy.FindDetailRecords(_tableName, _data, binder.Name);
+                result =
+                    new DynamicEnumerable(relatedRows.Select(dict => new DynamicRecord(dict, binder.Name, _dataStrategy)));
                 return true;
             }
-            return base.TryGetMember(binder, out result);
+            return false;
+        }
+
+        private bool TryGetMasterRecord(GetMemberBinder binder, ref object result)
+        {
+            if (_dataStrategy.GetRelationType(_tableName, binder.Name) == RelationType.ManyToOne)
+            {
+                var relatedRow = _dataStrategy.FindMasterRecord(_tableName, _data, binder.Name);
+                result = new DynamicRecord(relatedRow, binder.Name, _dataStrategy);
+                return true;
+            }
+            return false;
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)

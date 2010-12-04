@@ -15,7 +15,17 @@ namespace Simple.Data
         /// <returns>
         /// 	<c>true</c> if there is a valid relation; otherwise, <c>false</c>.
         /// </returns>
-        bool IsValidRelation(string tableName, string relatedTableName);
+        RelationType GetRelationType(string tableName, string relatedTableName);
+
+        /// <summary>
+        /// Finds data from a "table" related to the specified "table".
+        /// </summary>
+        /// <param name="tableName">Name of the table.</param>
+        /// <param name="row"></param>
+        /// <param name="relatedTableName"></param>
+        /// <returns>The record matching the criteria. If no record is found, return null.</returns>
+        /// <remarks>When implementing the <see cref="Adapter"/> interface, if relationships are not possible, throw a <see cref="NotSupportedException"/>.</remarks>
+        IDictionary<string, object> FindMasterRecord(string tableName, IDictionary<string, object> row, string relatedTableName);
 
         /// <summary>
         /// Finds data from a "table" related to the specified "table".
@@ -25,6 +35,6 @@ namespace Simple.Data
         /// <param name="relatedTableName"></param>
         /// <returns>The list of records matching the criteria. If no records are found, return an empty list.</returns>
         /// <remarks>When implementing the <see cref="Adapter"/> interface, if relationships are not possible, throw a <see cref="NotSupportedException"/>.</remarks>
-        IEnumerable<IDictionary<string, object>> FindRelated(string tableName, IDictionary<string, object> row, string relatedTableName);
+        IEnumerable<IDictionary<string, object>> FindDetailRecords(string tableName, IDictionary<string, object> row, string relatedTableName);
     }
 }

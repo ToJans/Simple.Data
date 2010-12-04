@@ -146,7 +146,7 @@ namespace Simple.Data.Mocking.Test
         [Test]
         public void IsValidRelation_Users_Pets_ShouldReturnTrue()
         {
-            Assert.IsTrue(_mockAdapter.IsValidRelation("Users", "Pets"));
+            Assert.AreEqual(RelationType.OneToMany,_mockAdapter.GetRelationType("Users", "Pets"));
         }
 
         [Test]

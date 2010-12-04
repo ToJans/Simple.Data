@@ -86,5 +86,30 @@ namespace Simple.Data
         ///  Deletes from the specified table.
         ///  </summary><param name="tableName">Name of the table.</param><param name="criteria">The expression to use as criteria for the delete operation.</param><returns>The number of records which were deleted.</returns>
         public abstract int Delete(string tableName, SimpleExpression criteria);
+
+        /// <summary>
+        /// Determines whether a relation is valid.
+        /// </summary>
+        /// <param name="tableName">Name of the known table.</param>
+        /// <param name="relatedTableName">Name of the table to test.</param>
+        /// <returns>
+        /// 	<c>true</c> if there is a valid relation; otherwise, <c>false</c>.
+        /// </returns>
+        public virtual RelationType GetRelationType(string tableName, string relatedTableName)
+        {
+            var adapter = GetAdapter() as IAdapterWithRelation;
+            if (adapter == null) return RelationType.NonExistent;
+            return adapter.GetRelationType(tableName, relatedTableName);
+        }
+
+        public IEnumerable<IDictionary<string,object>> FindDetailRecords(string tableName, IDictionary<string,object> data, string name)
+        {
+            return ((IAdapterWithRelation) GetAdapter()).FindDetailRecords(tableName, data, name);
+        }
+
+        public IDictionary<string, object> FindMasterRecord(string tableName, IDictionary<string, object> data, string name)
+        {
+            return ((IAdapterWithRelation)GetAdapter()).FindMasterRecord(tableName, data, name);
+        }
     }
 }

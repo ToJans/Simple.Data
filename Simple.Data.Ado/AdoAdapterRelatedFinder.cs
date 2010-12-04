@@ -22,12 +22,16 @@ namespace Simple.Data.Ado
             _adapter = adapter;
         }
 
-        public bool IsValidRelation(string tableName, string relatedTableName)
+        public RelationType GetRelationType(string tableName, string relatedTableName)
         {
-            return TryJoin(tableName, relatedTableName) != null;
+            var join = TryJoin(tableName, relatedTableName);
+            if (join == null) return RelationType.NonExistent;
+            return join.Master == _adapter.GetSchema().FindTable(tableName)
+                       ? RelationType.OneToMany
+                       : RelationType.ManyToOne;
         }
 
-        public IEnumerable<IDictionary<string, object>> FindRelated(string tableName, IDictionary<string, object> row, string relatedTableName)
+        public IEnumerable<IDictionary<string, object>> FindDetailRecords(string tableName, IDictionary<string, object> row, string relatedTableName)
         {
             var join = TryJoin(tableName, relatedTableName);
             if (join == null) throw new AdoAdapterException("Could not resolve relationship.");
@@ -36,7 +40,19 @@ namespace Simple.Data.Ado
             {
                 return GetDetail(row, join);
             }
-            return GetMaster(row, join);
+            throw new InvalidOperationException();
+        }
+
+        public IDictionary<string, object> FindMasterRecord(string tableName, IDictionary<string, object> row, string relatedTableName)
+        {
+            var join = TryJoin(tableName, relatedTableName);
+            if (join == null) throw new AdoAdapterException("Could not resolve relationship.");
+
+            if (join.Detail == _adapter.GetSchema().FindTable(tableName))
+            {
+                return GetMaster(row, join);
+            }
+            throw new InvalidOperationException();
         }
 
         private TableJoin TryJoin(string tableName, string relatedTableName)
@@ -60,12 +76,12 @@ namespace Simple.Data.Ado
             return _adapter.GetSchema().FindTable(tableName).GetDetail(relatedTableName);
         }
 
-        private IEnumerable<IDictionary<string, object>> GetMaster(IDictionary<string, object> row, TableJoin masterJoin)
+        private IDictionary<string, object> GetMaster(IDictionary<string, object> row, TableJoin masterJoin)
         {
             var criteria = new Dictionary<string, object> { { masterJoin.MasterColumn.ActualName, row[masterJoin.DetailColumn.HomogenizedName] } };
-            yield return _adapter.FindMany(masterJoin.Master.ActualName,
+            return _adapter.FindOne(masterJoin.Master.ActualName,
                                        ExpressionHelper.CriteriaDictionaryToExpression(masterJoin.Master.ActualName,
-                                                                                       criteria)).FirstOrDefault();
+                                                                                       criteria));
         }
 
         private IEnumerable<IDictionary<string, object>> GetDetail(IDictionary<string, object> row, TableJoin join)

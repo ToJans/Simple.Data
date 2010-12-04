@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
@@ -14,6 +15,7 @@ namespace Simple.Data.Ado
     [Export("Ado", typeof(Adapter))]
     internal class AdoAdapter : Adapter, IAdapterWithRelation, IAdapterWithTransactions
     {
+        private readonly ConcurrentDictionary<string, RelationType> _relationTypes = new ConcurrentDictionary<string, RelationType>();
         private IConnectionProvider _connectionProvider;
         private DatabaseSchema _schema;
         private Lazy<AdoAdapterRelatedFinder> _relatedFinder;
@@ -143,9 +145,10 @@ namespace Simple.Data.Ado
         /// <returns>
         /// 	<c>true</c> if there is a valid relation; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsValidRelation(string tableName, string relatedTableName)
+        public RelationType GetRelationType(string tableName, string relatedTableName)
         {
-            return _relatedFinder.Value.IsValidRelation(tableName, relatedTableName);
+            return _relationTypes.GetOrAdd(tableName + "->" + relatedTableName,
+                                           s => _relatedFinder.Value.GetRelationType(tableName, relatedTableName));
         }
 
         /// <summary>
@@ -156,9 +159,14 @@ namespace Simple.Data.Ado
         /// <param name="relatedTableName"></param>
         /// <returns>The list of records matching the criteria. If no records are found, return an empty list.</returns>
         /// <remarks>When implementing the <see cref="Adapter"/> interface, if relationships are not possible, throw a <see cref="NotSupportedException"/>.</remarks>
-        public IEnumerable<IDictionary<string, object>> FindRelated(string tableName, IDictionary<string, object> row, string relatedTableName)
+        public IEnumerable<IDictionary<string, object>> FindDetailRecords(string tableName, IDictionary<string, object> row, string relatedTableName)
         {
-            return _relatedFinder.Value.FindRelated(tableName, row, relatedTableName);
+            return _relatedFinder.Value.FindDetailRecords(tableName, row, relatedTableName);
+        }
+
+        public IDictionary<string,object> FindMasterRecord(string tableName, IDictionary<string,object> row, string relatedTableName)
+        {
+            return _relatedFinder.Value.FindMasterRecord(tableName, row, relatedTableName);
         }
 
         public IAdapterTransaction BeginTransaction()
