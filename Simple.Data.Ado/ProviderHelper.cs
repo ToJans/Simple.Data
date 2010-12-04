@@ -8,6 +8,7 @@ namespace Simple.Data.Ado
 {
     class ProviderHelper
     {
+        private static readonly MefHelper MefHelper = new MefHelper();
         private static readonly ConcurrentDictionary<string, IConnectionProvider> Cache = new ConcurrentDictionary<string,IConnectionProvider>();
 
         public static IConnectionProvider GetProviderByConnectionString(string connectionString)

@@ -19,11 +19,6 @@ namespace Simple.Data
             _concreteType = concreteType;
         }
 
-        public Type ConcreteType
-        {
-            get { return _concreteType; }
-        }
-
         public static ConcreteTypeCreator Get(Type concreteType)
         {
             return Cache.GetOrAdd(concreteType, type => new ConcreteTypeCreator(type));

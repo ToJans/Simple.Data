@@ -8,6 +8,18 @@ namespace Simple.Data
 {
     class AdapterFactory : IAdapterFactory
     {
+        private readonly IMefHelper _mefHelper;
+
+        internal AdapterFactory() : this(new MefHelper())
+        {
+            
+        }
+
+        internal AdapterFactory(IMefHelper mefHelper)
+        {
+            _mefHelper = mefHelper;
+        }
+
         public Adapter Create(object settings)
         {
             return Create(ObjectEx.ObjectToDictionary(settings));
@@ -35,8 +47,11 @@ namespace Simple.Data
 
         protected Adapter DoCreate(string adapterName, IEnumerable<KeyValuePair<string, object>> settings)
         {
-            var adapter = MefHelper.Compose<Adapter>(adapterName);
-            adapter.Setup(settings);
+            var adapter = _mefHelper.Compose<Adapter>(adapterName);
+            if (adapter != null)
+            {
+                adapter.Setup(settings);
+            }
             return adapter;
         }
     }

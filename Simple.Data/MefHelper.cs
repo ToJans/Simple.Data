@@ -8,9 +8,14 @@ using System.Text;
 
 namespace Simple.Data
 {
-    class MefHelper
+    public interface IMefHelper
     {
-        public static T Compose<T>(string contractName)
+        T Compose<T>(string contractName);
+    }
+
+    class MefHelper : IMefHelper
+    {
+        public T Compose<T>(string contractName)
         {
             using (var container = CreateContainer())
             {
@@ -20,7 +25,7 @@ namespace Simple.Data
             }
         }
 
-        private static CompositionContainer CreateContainer()
+        private CompositionContainer CreateContainer()
         {
             var path = Assembly.GetExecutingAssembly().CodeBase.Replace("file:///", "");
             path = Path.GetDirectoryName(path);
