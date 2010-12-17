@@ -174,7 +174,7 @@ namespace Simple.Data
 
         public override string ToString()
         {
-            if (AmNull()) throw new NullReferenceException();
+            if (AmNull()) return string.Empty;
             return base.ToString();
         }
 

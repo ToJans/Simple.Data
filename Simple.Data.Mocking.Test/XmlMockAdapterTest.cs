@@ -156,6 +156,25 @@ namespace Simple.Data.Mocking.Test
             Assert.AreEqual(1, pets.Count());
             Assert.AreEqual("Fido", pets.Single().Name);
         }
+
+        [Test]
+        public void FindBy_CustomerNoAndAccountManagerEmail_ShouldNotFindCustomer()
+        {
+            MockHelper.UseMockAdapter(new XmlMockAdapter(
+            @"<root>
+                <Users>
+                    <User Email=""someUser"" Password=""PASSWORD"" UserType=""AccountExecutive""/>
+                </Users>          
+                <CustomerData SiteNo=""System.Int32"" CustomerNo=""System.Int32"">
+                    <Customer SiteNo=""500"" CustomerNo=""1"" SiteName=""Trump Towers"" EmailCust=""customerEmail"" AccountManagerEmail=""someOtherAccountExecutive""/>
+                </CustomerData>      
+            </root>"));
+
+            var customer = Database.Default.CustomerData
+                .FindByCustomerNoAndAccountManagerEmail(1, "someEmail");
+
+            Assert.IsNull(customer);
+        }
     }
 }
 
