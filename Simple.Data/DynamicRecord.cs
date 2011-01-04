@@ -168,7 +168,7 @@ namespace Simple.Data
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            if (AmNull()) throw new NullReferenceException();
+            if (AmNull()) return 0;
             return base.GetHashCode();
         }
 

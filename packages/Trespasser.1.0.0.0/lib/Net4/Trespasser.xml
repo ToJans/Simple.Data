@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Trespasser</name>
+    </assembly>
+    <members>
+        <member name="T:Trespasser.Proxy`1">
+            <summary>
+            Provides a dynamic proxy object which gives straight-forward access to non-public static members.
+            </summary>
+        </member>
+        <member name="T:Trespasser.Proxy">
+            <summary>
+            Provides a dynamic proxy object which gives straight-forward access to non-public members.
+            </summary>
+        </member>
+        <member name="M:Trespasser.Proxy.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Trespasser.Proxy"/> class.
+            Private. Only used by the static <see cref="M:Trespasser.Proxy.Instance(System.Object)"/> method.
+            </summary>
+            <param name="target">The target.</param>
+        </member>
+        <member name="M:Trespasser.Proxy.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Trespasser.Proxy"/> class.
+            Protected. Only used by the derived <see cref="T:Trespasser.Proxy`1"/>.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:Trespasser.Proxy.Instance(System.Object)">
+            <summary>
+            Creates a Trespasser proxy for the target object instance.
+            </summary>
+            <param name="target">The object instance on which you need to access non-public members.</param>
+            <returns>The proxy as a <see langword="dynamic"/> object.</returns>
+        </member>
+        <member name="M:Trespasser.Proxy.Static``1">
+            <summary>
+            Creates a Trespasser proxy for the target type.
+            </summary>
+            <typeparam name="T">The type on which you need to access non-public static members.</typeparam>
+            <returns>The proxy as a <see langword="dynamic"/> object.</returns>
+        </member>
+        <member name="M:Trespasser.Proxy`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Trespasser.Proxy`1"/> class.
+            Internal. Only used by the static <see cref="M:Trespasser.Proxy.Static``1"/> method.
+            </summary>
+        </member>
+    </members>
+</doc>

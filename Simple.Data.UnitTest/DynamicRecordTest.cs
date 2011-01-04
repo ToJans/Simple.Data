@@ -65,6 +65,22 @@ namespace Simple.Data.UnitTest
             Assert.AreSame(user1, user2);
         }
 
+        [Test]
+        public void WhenIsNullIsTrueShouldAssertAsNull()
+        {
+            DynamicRecord target = new DynamicRecord();
+            Trespasser.Proxy.Instance(target)._null = true;
+            Assert.IsNull(target);
+        }
+
+        [Test]
+        public void NullableTest()
+        {
+            int? nullInt = 0;
+            nullInt = null;
+            Assert.IsNull(nullInt);
+        }
+
         internal class User
         {
             public string Name { get; set; }
