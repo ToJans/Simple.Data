@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Simple.Data.Ado;
 using Simple.Data.Ado.Schema;
 
@@ -15,9 +17,30 @@ namespace Simple.Data.Sqlite
             _connectionProvider = connectionProvider;
         }
 
+        public IConnectionProvider ConnectionProvider
+        {
+            get { return _connectionProvider; }
+        }
+
         public IEnumerable<Table> GetTables()
         {
-            throw new NotImplementedException();
+            return GetSchema("TABLES").Select(SchemaRowToTable);
+        }
+
+        private static Table SchemaRowToTable(DataRow row)
+        {
+            return new Table(row["TABLE_NAME"].ToString(), row["TABLE_SCHEMA"].ToString(),
+                        row["TABLE_TYPE"].ToString() == "BASE TABLE" ? TableType.Table : TableType.View);
+        }
+
+        private IEnumerable<DataRow> GetSchema(string collectionName, params string[] constraints)
+        {
+            using (var cn = ConnectionProvider.CreateConnection())
+            {
+                cn.Open();
+
+                return cn.GetSchema(collectionName, constraints).AsEnumerable();
+            }
         }
 
         public IEnumerable<Column> GetColumns(Table table)

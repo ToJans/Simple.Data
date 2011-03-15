@@ -32,6 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="pnunit.framework">
+      <HintPath>..\packages\NUnit.2.5.9.10348\lib\pnunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,8 +53,31 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="SchemaTests\DatabaseSchemaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Northwind.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Simple.Data.Ado\Simple.Data.Ado.csproj">
+      <Project>{ECC2D7DB-EC7F-44B6-B09F-5B471C629685}</Project>
+      <Name>Simple.Data.Ado</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simple.Data.Sqlite\Simple.Data.Sqlite.csproj">
+      <Project>{3192E343-A090-4130-BA8C-78EAE2A25BEB}</Project>
+      <Name>Simple.Data.Sqlite</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simple.Data.TestHelper\Simple.Data.TestHelper.csproj">
+      <Project>{7DAB2F13-0392-435E-A934-4567266714BF}</Project>
+      <Name>Simple.Data.TestHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Simple.Data\Simple.Data.csproj">
+      <Project>{148CEE80-2E84-4ABD-B5AB-20415B2BBD21}</Project>
+      <Name>Simple.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
