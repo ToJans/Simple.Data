@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SQLite;
 using System.Linq;
 using Simple.Data.Ado;
 using Simple.Data.Ado.Schema;
@@ -45,7 +46,7 @@ namespace Simple.Data.Sqlite
 
         public IEnumerable<Column> GetColumns(Table table)
         {
-            throw new NotImplementedException();
+            return Enumerable.Select(GetColumnsDataTable(table).AsEnumerable(), row => new Column(row["name"].ToString(), table, row["pk"] != DBNull.Value));
         }
 
         public IEnumerable<Procedure> GetStoredProcedures()
@@ -76,6 +77,26 @@ namespace Simple.Data.Sqlite
         public string NameParameter(string baseName)
         {
             throw new NotImplementedException();
+        }
+
+        private DataTable GetColumnsDataTable(Table table)
+        {
+            return SelectToDataTable("pragma table_info(" + table.ActualName + ");");
+        }
+
+        private DataTable SelectToDataTable(string sql)
+        {
+            var dataTable = new DataTable();
+            using (var cn = ConnectionProvider.CreateConnection() as SQLiteConnection)
+            {
+                using (var adapter = new SQLiteDataAdapter(sql, cn))
+                {
+                    adapter.Fill(dataTable);
+                }
+
+            }
+
+            return dataTable;
         }
     }
 }

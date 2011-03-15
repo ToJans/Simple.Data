@@ -26,5 +26,18 @@ namespace Simple.Data.SqliteTests
         {
             Assert.AreEqual(1, Schema.Tables.Count(t => t.ActualName == "Customers"));
         }
+
+        [Test]
+        public void TestColumns()
+        {
+            var table = Schema.FindTable("Customers");
+            Assert.AreEqual(1, table.Columns.Count(c => c.ActualName == "CustomerID"));
+        }
+
+        [Test]
+        public void TestPrimaryKey()
+        {
+            Assert.AreEqual("CustomerID", Schema.FindTable("Customers").PrimaryKey[0]);
+        }
     }
 }
