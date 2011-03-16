@@ -39,5 +39,23 @@ namespace Simple.Data.SqliteTests
         {
             Assert.AreEqual("catid", Schema.FindTable("Catalogs").PrimaryKey[0]);
         }
+
+        [Test]
+        [Ignore]
+        public void TestForeignKey()
+        {
+            var foreignKey = Schema.FindTable("Orders").ForeignKeys.Single();
+            Assert.AreEqual("Customers", foreignKey.MasterTable);
+            Assert.AreEqual("Orders", foreignKey.DetailTable);
+            Assert.AreEqual("CustomerId", foreignKey.Columns[0]);
+            Assert.AreEqual("CustomerId", foreignKey.UniqueColumns[0]);
+        }
+
+        [Test]
+        public void TestSingularResolution()
+        {
+            Assert.AreEqual("Products",
+                Schema.FindTable("Product").ActualName);
+        }
     }
 }
