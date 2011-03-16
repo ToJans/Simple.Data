@@ -46,7 +46,8 @@ namespace Simple.Data.Sqlite
 
         public IEnumerable<Column> GetColumns(Table table)
         {
-            return Enumerable.Select(GetColumnsDataTable(table).AsEnumerable(), row => new Column(row["name"].ToString(), table, row["pk"] != DBNull.Value));
+            return GetColumnsDataTable(table).AsEnumerable().Select( 
+                        row => new Column(row.Field<string>("name"), table, Convert.ToBoolean(row.Field<long>("pk"))));
         }
 
         public IEnumerable<Procedure> GetStoredProcedures()
@@ -61,7 +62,7 @@ namespace Simple.Data.Sqlite
 
         public Key GetPrimaryKey(Table table)
         {
-            throw new NotImplementedException();
+            return new Key(GetColumns(table).Where(column => column.IsIdentity).Select(x => x.ActualName));
         }
 
         public IEnumerable<ForeignKey> GetForeignKeys(Table table)

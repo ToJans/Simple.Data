@@ -37,7 +37,7 @@ namespace Simple.Data.SqliteTests
         [Test]
         public void TestPrimaryKey()
         {
-            Assert.AreEqual("CustomerID", Schema.FindTable("Customers").PrimaryKey[0]);
+            Assert.AreEqual("catid", Schema.FindTable("Catalogs").PrimaryKey[0]);
         }
     }
 }
