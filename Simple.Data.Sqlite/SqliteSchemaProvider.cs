@@ -52,12 +52,12 @@ namespace Simple.Data.Sqlite
 
         public IEnumerable<Procedure> GetStoredProcedures()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<Procedure>();
         }
 
         public IEnumerable<Parameter> GetParameters(Procedure storedProcedure)
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<Parameter>();
         }
 
         public Key GetPrimaryKey(Table table)
@@ -72,12 +72,16 @@ namespace Simple.Data.Sqlite
 
         public string QuoteObjectName(string unquotedName)
         {
-            throw new NotImplementedException();
+            if (unquotedName == null) throw new ArgumentNullException("unquotedName");
+            if (unquotedName.StartsWith("[")) return unquotedName;
+            return string.Concat("[", unquotedName, "]");
         }
 
         public string NameParameter(string baseName)
         {
-            throw new NotImplementedException();
+            if (baseName == null) throw new ArgumentNullException("baseName");
+            if (baseName.Length == 0) throw new ArgumentException("Base name must be provided");
+            return (baseName.StartsWith("@")) ? baseName : "@" + baseName;
         }
 
         private DataTable GetColumnsDataTable(Table table)
