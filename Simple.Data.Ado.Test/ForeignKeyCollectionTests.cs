@@ -14,7 +14,7 @@ namespace Simple.Data.UnitTest
                                      new[] {"Field2"});
             collection.Add(key);
 
-            Assert.That(collection[0],Is.EqualTo(key));
+            Assert.That(collection, Contains.Item(key));
         }
 
         [Test]
