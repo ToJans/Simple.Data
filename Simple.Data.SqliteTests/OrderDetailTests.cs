@@ -16,10 +16,9 @@ namespace Simple.Data.SqliteTests
         public void TestOrderDetail()
         {
             var db = Database.OpenFile(DatabasePath);
-            db.Orders.Insert(OrderID: 1000, OrderDate: DateTime.Today);
-            var order = db.Orders.FindByOrderDate(new DateTime(1994, 11, 16));
+            var order = db.Orders.FindByOrderDate(new DateTime(1996, 07, 10));
             Assert.IsNotNull(order);
-            var orderItem = order.OrderItems.FirstOrDefault();
+            var orderItem = order.OrderDetails.FirstOrDefault();
             Assert.IsNotNull(orderItem);
             var item = orderItem.Item;
             Assert.AreEqual("Widget", item.Name);
