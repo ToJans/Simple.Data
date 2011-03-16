@@ -54,6 +54,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="NorthwindTests.cs" />
+    <Compile Include="OrderDetailTests.cs" />
     <Compile Include="SchemaTests\DatabaseSchemaTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
