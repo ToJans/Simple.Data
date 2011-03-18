@@ -67,16 +67,14 @@ namespace Simple.Data.Sqlite
 
         public IEnumerable<ForeignKey> GetForeignKeys(Table table)
         {
-            var groups = SelectToDataTable("pragma foreign_key_list(" + table.ActualName + ");").AsEnumerable()
-            .GroupBy(row => row.Field<string>("table"));
+            var groups = SelectToDataTable("pragma foreign_key_list(" + table.ActualName + ");")
+                         .AsEnumerable()
+                         .GroupBy(row => row.Field<string>("table"));
 
             foreach(var group in groups)
             {
-                var detailName = new ObjectName(null, group.First().Field<string>("table"));
-                var masterName = new ObjectName(null, table.ActualName);
-                //var key = new ForeignKey(detailName, group.Select(row => row.Field<string>("from")), masterName,
-                //                         group.Select(row => row.Field<string>("to")));
-
+                var masterName = new ObjectName(null, group.First().Field<string>("table"));
+                var detailName = new ObjectName(null, table.ActualName);
                 var key = new ForeignKey(detailName, group.Select(row => row.Field<string>("to")), masterName,
                                          group.Select(row => row.Field<string>("from")));
                 yield return key;

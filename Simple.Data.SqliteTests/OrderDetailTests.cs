@@ -18,10 +18,10 @@ namespace Simple.Data.SqliteTests
             var db = Database.OpenFile(DatabasePath);
             var order = db.Orders.FindByOrderDate(new DateTime(1996, 07, 10));
             Assert.IsNotNull(order);
-            var orderItem = order.OrderDetails.FirstOrDefault();
-            Assert.IsNotNull(orderItem);
-            var item = orderItem.Item;
-            Assert.AreEqual("Widget", item.Name);
+            var orderDetail = order.OrderDetails.FirstOrDefault();
+            Assert.IsNotNull(orderDetail);
+            var product = orderDetail.Product;
+            Assert.AreEqual("Gorgonzola Telino", product.ProductName);
         }
     }
 }
