@@ -11,6 +11,7 @@ using Simple.Data.Ado.Schema;
 namespace Simple.Data.Sqlite
 {
     [Export("db", typeof(IConnectionProvider))]
+    [Export("sql", typeof(IConnectionProvider))]
     public class SqliteConnectionProvider : IConnectionProvider
     {
         string _connectionString;
@@ -42,7 +43,7 @@ namespace Simple.Data.Sqlite
 
         public string GetIdentityFunction()
         {
-            return "SELECT last_insert_rowid() AS ID;";
+            return "last_insert_rowid()";
         }
 
         public bool SupportsStoredProcedures
