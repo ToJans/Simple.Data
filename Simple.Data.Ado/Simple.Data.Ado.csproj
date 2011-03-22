@@ -60,11 +60,13 @@
     <Compile Include="AdoAdapterTransaction.cs" />
     <Compile Include="CommandBuilder.cs" />
     <Compile Include="CommandHelper.cs" />
+    <Compile Include="DataParameterCollectionEx.cs" />
     <Compile Include="DataReaderExtensions.cs" />
     <Compile Include="DataReaderObservableRunner.cs" />
     <Compile Include="DataRecordExtensions.cs" />
     <Compile Include="DbCommandExtensions.cs" />
     <Compile Include="DbCommandObservableEx.cs" />
+    <Compile Include="DelegatingConnectionBase`1.cs" />
     <Compile Include="DeleteHelper.cs" />
     <Compile Include="ExpressionFormatter.cs" />
     <Compile Include="FindHelper.cs" />
