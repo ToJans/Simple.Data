@@ -29,5 +29,11 @@ namespace Simple.Data.Sqlite
             //do not dispose anything...
         }
 
+        public void KillDashNine()
+        {
+            if(_target.State != ConnectionState.Closed)
+                _target.Close();
+        }
+
     }
 }

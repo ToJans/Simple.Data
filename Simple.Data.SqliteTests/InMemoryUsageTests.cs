@@ -1,6 +1,7 @@
 using System.Data;
 using NUnit.Framework;
 using Simple.Data.Ado;
+using Simple.Data.Sqlite;
 
 namespace Simple.Data.SqliteTests
 {
@@ -27,9 +28,7 @@ namespace Simple.Data.SqliteTests
         [TearDown]
         public void TearDown()
         {
-            //TODO: this is also hacky as hell
-            connection.CreateCommand().Connection.Close();
-            connection.CreateCommand().Connection.Dispose();
+            ((SqliteInMemoryDbConnection) connection).KillDashNine();
             connection = null;
         }
 
