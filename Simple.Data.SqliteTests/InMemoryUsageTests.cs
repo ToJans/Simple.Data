@@ -27,8 +27,9 @@ namespace Simple.Data.SqliteTests
         [TearDown]
         public void TearDown()
         {
-            connection.Close();
-            connection.Dispose();
+            //TODO: this is also hacky as hell
+            connection.CreateCommand().Connection.Close();
+            connection.CreateCommand().Connection.Dispose();
             connection = null;
         }
 

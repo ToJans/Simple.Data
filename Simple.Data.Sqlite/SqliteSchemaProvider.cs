@@ -103,9 +103,11 @@ namespace Simple.Data.Sqlite
         private DataTable SelectToDataTable(string sql)
         {
             var dataTable = new DataTable();
-            using (var cn = ConnectionProvider.CreateConnection() as SQLiteConnection)
+            using (var cn = ConnectionProvider.CreateConnection())
             {
-                using (var adapter = new SQLiteDataAdapter(sql, cn))
+                //TODO:this is hacky has hell but the data adapter requires the concrete type.
+                var con = cn.CreateCommand().Connection as SQLiteConnection;
+                using (var adapter = new SQLiteDataAdapter(sql, con))
                 {
                     adapter.Fill(dataTable);
                 }
