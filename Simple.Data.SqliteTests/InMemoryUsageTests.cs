@@ -1,5 +1,6 @@
-using System.Data.SQLite;
+using System.Data;
 using NUnit.Framework;
+using Simple.Data.Ado;
 
 namespace Simple.Data.SqliteTests
 {
@@ -7,13 +8,15 @@ namespace Simple.Data.SqliteTests
     public class InMemoryUsageTests
     {
         const string connectionString = "Data Source=:memory:";
-        SQLiteConnection connection;
+        IDbConnection connection;
+        dynamic db;
 
         [SetUp]
         public void SetUp()
         {
             var createTableSql = Properties.Resources.CreateEmployeesTable;
-            connection = new SQLiteConnection(connectionString);
+            db = Database.OpenConnection(connectionString);
+            connection = ProviderHelper.GetProviderByConnectionString(connectionString).CreateConnection();
             connection.Open();
             var command = connection.CreateCommand();
             command.CommandText = createTableSql;
@@ -38,16 +41,13 @@ namespace Simple.Data.SqliteTests
         [Test]
         public void CanQueryInMemoryDatabase()
         {
-            Assert.That(connection, Is.Not.Null);
-            var db = Database.OpenConnection(connectionString);
             var employees = db.Employees.All();
-            Assert.That(employees.Count(), Is.EqualTo(3));
+            Assert.That(employees.ToList().Count, Is.EqualTo(3));
         }
 
         [Test]
         public void CanInsertInMemoryDatabase()
         {
-            var db = Database.OpenConnection(connectionString);
             var employee = db.Employees.Insert(EmpName: "Dirk Diggler", EmpSalary: 100000);
             Assert.That(employee.EmpName, Is.EqualTo("Dirk Diggler"));
             Assert.That(employee.EmpSalary, Is.EqualTo(100000));
