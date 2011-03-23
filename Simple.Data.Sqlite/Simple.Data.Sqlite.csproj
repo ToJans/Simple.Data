@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="SqliteConnectionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqliteInMemoryDbConnection.cs" />
     <Compile Include="SqliteSchemaProvider.cs" />
     <Compile Include="SqliteTypeResolver.cs" />
   </ItemGroup>
