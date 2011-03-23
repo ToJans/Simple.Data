@@ -8,7 +8,7 @@ namespace Simple.Data.Ado
 {
     public abstract class DelegatingConnectionBase : IDbConnection, ISchemaGetter
     {
-        private readonly IDbConnection _target;
+        protected readonly IDbConnection _target;
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
