@@ -17,8 +17,7 @@ Instead of
 		    {
 			    if (reader.Read())
 			    {
-				    user = new User
-                                    {
+				    user = new User {
                                         Id = reader.GetInt32(0),
                                         Email = reader.GetString(1),
                                         HashedPassword = reader.GetString(2),
