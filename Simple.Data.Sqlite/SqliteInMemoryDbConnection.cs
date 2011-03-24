@@ -10,8 +10,8 @@ namespace Simple.Data.Sqlite
 
         public override void Open()
         {
-            if(_target.State == ConnectionState.Closed)
-                _target.Open();
+            if(DelegatedConnection.State == ConnectionState.Closed)
+                DelegatedConnection.Open();
         }
 
         public override void Close()
@@ -21,7 +21,7 @@ namespace Simple.Data.Sqlite
 
         public DataTable GetSchema(string collectionName, params string[] constraints)
         {
-            return _target.GetSchema(collectionName, constraints);
+            return DelegatedConnection.GetSchema(collectionName, constraints);
         }
 
         public override void Dispose()
@@ -31,8 +31,8 @@ namespace Simple.Data.Sqlite
 
         public void KillDashNine()
         {
-            if(_target.State != ConnectionState.Closed)
-                _target.Close();
+            if (DelegatedConnection.State != ConnectionState.Closed)
+                DelegatedConnection.Close();
         }
 
     }
