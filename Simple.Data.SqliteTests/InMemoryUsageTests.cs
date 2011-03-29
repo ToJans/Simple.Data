@@ -46,6 +46,15 @@ namespace Simple.Data.SqliteTests
         }
 
         [Test]
+        public void CanQueryInMemoryDatabaseTwice()
+        {
+            var employees = db.Employees.All();
+            Assert.That(employees.ToList().Count, Is.EqualTo(3));
+            Assert.That(employees.ToList().Count, Is.EqualTo(3));
+        }
+
+
+        [Test]
         public void CanInsertInMemoryDatabase()
         {
             var employee = db.Employees.Insert(EmpName: "Dirk Diggler", EmpSalary: 100000);
